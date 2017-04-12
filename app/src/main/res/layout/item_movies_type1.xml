@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/main_gray"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:background="@drawable/ripple_selector_item_white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/top"
+            android:id="@+id/item_icon_iv1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+        <TextView
+            android:paddingRight="@dimen/margin_15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:drawableRight="@drawable/ico_more"
+            android:gravity="center_vertical"
+            android:text="豆瓣电影Top250"
+            android:textColor="@color/text_black333"
+            android:textSize="@dimen/text_size_16sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:background="@drawable/ripple_selector_item_white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/jijiang"
+            android:id="@+id/item_icon_iv2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+        <TextView
+            android:paddingRight="@dimen/margin_15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:drawableRight="@drawable/ico_more"
+            android:gravity="center_vertical"
+            android:text="即将上映"
+            android:textColor="@color/text_black333"
+            android:textSize="@dimen/text_size_16sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_50dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_15dp"
+        android:text="热映榜"
+        android:textSize="@dimen/text_size_18sp"/>
+
+
+</LinearLayout>

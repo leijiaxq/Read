@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.maymeng.read.ui.activity.MainActivity"
+    >
+
+    <FrameLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_view"
+        android:background="@color/main_gray"
+        />
+
+    <View
+        android:id="@+id/main_view"
+        style="@style/line_view"
+        android:layout_above="@+id/main_rg"
+        />
+
+    <RadioGroup
+        android:id="@+id/main_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/zhihu_rb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawablePadding="@dimen/margin_2dp"
+            android:drawableTop="@drawable/selector_home"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="8dp"
+            android:text="资讯"
+            android:textColor="@color/selector_main_text"
+            android:textSize="@dimen/text_size_15sp"
+            />
+
+        <RadioButton
+            android:id="@+id/movies_rb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawablePadding="@dimen/margin_2dp"
+            android:drawableTop="@drawable/selector_order"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="8dp"
+            android:text="电影"
+            android:textColor="@color/selector_main_text"
+            android:textSize="@dimen/text_size_15sp"
+            />
+
+        <RadioButton
+            android:id="@+id/book_rb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/margin_2dp"
+            android:drawableTop="@drawable/selector_cart"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="8dp"
+            android:text="书籍"
+            android:textColor="@color/selector_main_text"
+            android:textSize="@dimen/text_size_15sp"
+            />
+    </RadioGroup>
+
+</RelativeLayout>
