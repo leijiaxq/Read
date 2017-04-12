@@ -18,6 +18,7 @@ import com.maymeng.read.ui.activity.MoviesDetailActivity;
 import com.maymeng.read.ui.activity.MoviesListActivity;
 import com.maymeng.read.utils.DataFormatUtil;
 import com.maymeng.read.utils.ImageUtil;
+import com.maymeng.read.view.ProgressWheel;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<HotMoviesBean.SubjectsBean> mDatas;
-
+    public boolean isAllLoad = false;
 
     public MoviesAdapter(Context context, List<HotMoviesBean.SubjectsBean> datas) {
         mContext = context;
@@ -48,6 +49,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewType == Constants.TYPE_TWO) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movies_type2, parent, false);
             return new ViewHolderType2(view);
+        } else if (viewType == Constants.TYPE_FOOT) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_foot_layout, parent, false);
+            return new ViewHolderFoot(view);
         }
         return null;
     }
@@ -59,6 +63,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setDataType1((ViewHolderType1) holder, position);
         } else if (holder instanceof ViewHolderType2) {
             setDataType2((ViewHolderType2) holder, position);
+        } else if (holder instanceof ViewHolderFoot) {
+            setDataFoot((ViewHolderFoot) holder);
         }
     }
 
@@ -88,17 +94,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void setDataType2(ViewHolderType2 holder, final int position) {
         final HotMoviesBean.SubjectsBean bean = mDatas.get(position - 1);
-        holder.mItemTitleTv.setText(TextUtils.isEmpty(bean.title)?"":bean.title);
+        holder.mItemTitleTv.setText(TextUtils.isEmpty(bean.title) ? "" : bean.title);
         String director = "";
         for (int i = 0, length = bean.directors.size(); i < length; i++) {
             HotMoviesBean.DirectorsBean bean1 = bean.directors.get(i);
             if (i == length - 1) {
                 director += bean1.name;
             } else {
-                director += bean1.name +"/";
+                director += bean1.name + "/";
             }
         }
-        holder.mItemDirectorTv.setText("导演："+director);
+        holder.mItemDirectorTv.setText("导演：" + director);
 
         String star = "";
         for (int i = 0, length = bean.casts.size(); i < length; i++) {
@@ -106,10 +112,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (i == length - 1) {
                 star += bean2.name;
             } else {
-                star += bean2.name +"/";
+                star += bean2.name + "/";
             }
         }
-        holder.mItemStarTv.setText("主演："+star);
+        holder.mItemStarTv.setText("主演：" + star);
 
         String type = "";
         for (int i = 0, length = bean.genres.size(); i < length; i++) {
@@ -117,12 +123,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (i == length - 1) {
                 type += str;
             } else {
-                type += str +"/";
+                type += str + "/";
             }
         }
-        holder.mItemTypeTv.setText("类型："+type);
+        holder.mItemTypeTv.setText("类型：" + type);
         String formatScore = DataFormatUtil.getFormatInstance2().format(bean.rating.average);
-        holder.mItemScoreTv.setText("评分："+formatScore);
+        holder.mItemScoreTv.setText("评分：" + formatScore);
 
         if (position == getItemCount()) {
             holder.mItemBottomLine.setVisibility(View.GONE);
@@ -131,7 +137,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-        ImageUtil.getInstance().displayImage(mContext,bean.images.large,holder.mItemIconIv);
+        ImageUtil.getInstance().displayImage(mContext, bean.images.large, holder.mItemIconIv);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -146,19 +152,43 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    //设置底部foot
+    private void setDataFoot(ViewHolderFoot holder) {
+        if (isAllLoad) {
+            holder.itemView.setVisibility(View.GONE);
+//            holder.mItemFootPb.setVisibility(View.GONE);
+//            holder.mItemFootTv.setText("所有数据已经加载完");
+        } else {
+            holder.itemView.setVisibility(View.VISIBLE);
+            holder.mItemFootPb.setVisibility(View.VISIBLE);
+            holder.mItemFootTv.setText("正在加载...");
+        }
+    }
 
     @Override
     public int getItemCount() {
-
-        return mDatas == null ? 1 : mDatas.size() + 1;
+        if (isAllLoad) {
+            return mDatas == null ? 1 : mDatas.size() + 1;
+        } else {
+            return mDatas == null ? 2 : mDatas.size() + 2;
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return Constants.TYPE_ONE;
+        if (isAllLoad) {
+            if (position == 0) {
+                return Constants.TYPE_ONE;
+            }
+            return Constants.TYPE_TWO;
+        } else {
+            if (position == 0) {
+                return Constants.TYPE_ONE;
+            } else if (position + 1 == getItemCount()) {
+                return Constants.TYPE_FOOT;
+            }
+            return Constants.TYPE_TWO;
         }
-        return Constants.TYPE_TWO;
     }
 
     public OnItemClickListener mListener;
@@ -209,6 +239,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View mItemBottomLine;
 
         ViewHolderType2(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class ViewHolderFoot extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_foot_pb)
+        ProgressWheel mItemFootPb;
+        @BindView(R.id.item_foot_tv)
+        TextView mItemFootTv;
+
+        ViewHolderFoot(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

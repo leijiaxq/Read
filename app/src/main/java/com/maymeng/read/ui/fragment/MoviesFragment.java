@@ -81,7 +81,8 @@ public class MoviesFragment extends RxLazyFragment {
 
     @Override
     public void loadData() {
-        showProgressDialog("");
+//        showProgressDialog("");
+        mAdapter.isAllLoad = false;
         getHotMoviesNet();
     }
 
@@ -127,6 +128,7 @@ public class MoviesFragment extends RxLazyFragment {
         if (bean ==null) {
             return;
         }
+        mAdapter.isAllLoad = true;
         mDatas.clear();
         mDatas.addAll(bean.subjects);
         mAdapter.notifyDataSetChanged();
